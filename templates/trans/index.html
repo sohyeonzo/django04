@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block con %}
+
+<div class="container mt-5 mb-5">
+    <h1><b>번역해ZOOM</b></h1>
+        <!-- {{nd}} -->
+    <!-- 딕셔너리를 템플릿 태그에서 접근하는 방법 -->
+    <!-- {% for key, value in d.items %} 
+        {{key}} {{value}}
+    {% endfor %}  -->
+
+    <form method="post" name="transForm">
+        {% csrf_token %} 
+        <div class="row mt-5">
+            <div class="col-lg-5">
+                <textarea type="text" name="con" value="{{con}}" class="form-control" placeholder="번역할 텍스트를 입력하세요" style="height: 350px; resize: none; font-size: 30px; font-weight: bold;">{{con}}</textarea>
+            </div>
+
+            <div class="col-lg-2 text-center" style="margin: auto;">
+                <select class="form-select" name="fn" size="5" aria-label="size 3 select example">
+                    {% for code, name in nd.items %} 
+                        <option value="{{code}}" {% if fn %}{% if fn == code %} selected {% endif %}{% else %} {% if code == 'en' %} selected {% endif %} {% endif %}>{{name|upper}}</option>
+                    {% endfor %} 
+
+                    <!-- <option value="en" {% if a == "en" %} selected {% endif %}>ENGLISH</option>
+                    <option value="ko" {% if fn == "ko" %} selected {% endif %}>KOREAN</option>
+                    <option value="ja" {% if fn == "ja" %} selected {% endif %}>JAPANESE</option>
+                    <option value="ru" {% if fn == "ru" %} selected {% endif %}>RUSSIAN</option>
+                    <option value="fr" {% if fn == "fr" %} selected {% endif %}>FRENCH</option> -->
+                </select>
+                <button type="button" onclick="trans()" class="btn btn-success mt-3 mb-3">번역</button>
+                <select class="form-select" name="tn" size="5" aria-label="size 3 select example">
+                    {% for code, name in nd.items %} 
+                        <option value="{{code}}" {% if tn %}{% if tn == code %} selected {% endif %}{% else %} {% if code == 'ko' %} selected {% endif %} {% endif %}>{{name|upper}}</option>
+                    {% endfor %}
+                    <!-- <option value="en" {% if b == "en" %} selected {% endif %}>ENGLISH</option>
+                    <option value="ko" {% if tn == "ko" %} selected {% endif %}>KOREAN</option>
+                    <option value="ja" {% if tn == "ja" %} selected {% endif %}>JAPANESE</option>
+                    <option value="ru" {% if tn == "ru" %} selected {% endif %}>RUSSIAN</option>
+                    <option value="fr" {% if tn == "fr" %} selected {% endif %}>FRENCH</option> -->
+                </select>
+            </div>
+
+            <div class="col-lg-5">
+                <textarea type="text" class="form-control" style="height: 350px; resize: none; font-size:30px; font-weight: bold;">{{trans1}}</textarea>
+            </div>
+        </div>    
+    </form>
+
+
+
+
+
+
+</div>
+
+
+
+
+    <script>
+        function trans(){
+            t=document.transForm;
+            if(!t.con.value){
+                alert("번역할 내용을 입력하세요")
+            }else if(t.fn.value == t.tn.value){
+                alert("서로 다른 나라 선택 바람")
+            }else{
+                t.submit();
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+{% endblock %} 
